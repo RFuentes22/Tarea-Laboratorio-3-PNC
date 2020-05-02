@@ -16,6 +16,7 @@ public class ProductController {
 	public ModelAndView compraProducto() {
 		ModelAndView mav = new ModelAndView();
 		
+		products.clear();
 		products.add(new Product(0,"Life is Strange",20));
 		products.add(new Product(1,"GTA V",15));
 		products.add(new Product(2,"COD",30));
@@ -33,24 +34,18 @@ public class ProductController {
 	@PostMapping("/validar")
 	public ModelAndView validar(Product product) {
 		ModelAndView mav = new ModelAndView();
-		String resul = "";
+		String resul = products.get(product.getId()).getNombre();
+		mav.addObject("resul", resul);
 		
 		if(products.get(product.getId()).getCantidad() < product.getCantidad() ||  product.getCantidad() < 1) {
-			resul = ("El juego " + products.get(product.getId()).getNombre() + " no se puede adquirir");
-			mav.addObject("resul", resul);
 			mav.setViewName("/error");
-			return mav;
+			
 		}
 		else {
-			resul = ("El juego " + products.get(product.getId()).getNombre() + " se adquirio");
-			mav.addObject("resul", resul);
 			mav.setViewName("/compra");
-			return mav;
+			
 		}
 		
-		
+		return mav;
 	}
-	 
-	
-	
 }
